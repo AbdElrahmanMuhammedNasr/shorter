@@ -1,0 +1,29 @@
+server:
+  port: 3031
+
+spring:
+  application:
+    name: shorter
+  liquibase:
+    change-log: classpath:db/master.xml
+
+
+  datasource:
+    url: jdbc:postgresql://localhost:1122/shorter?currentSchema=link&useSSL=false
+    username: root
+    password: root
+    driver-class-name: org.postgresql.Driver
+    jpa:
+      show-sql: true
+      hibernate:
+        ddl-auto: update
+      properties:
+        hibernate:
+          format_sql: true
+          dialect: org.hibernate.dialect.PostgreSQLDialect
+
+
+links:
+    length: 6
+    iteration: 2000
+    shortHost: https://localhost/

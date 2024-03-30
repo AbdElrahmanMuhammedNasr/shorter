@@ -17,7 +17,9 @@
             </column>
             <column name="original_link" type="varchar(255)"/>
             <column name="short_link" type="varchar(255)"/>
-            <column name="generated_code" type="varchar(255)"/>
+            <column name="generated_code" type="varchar(255)">
+                <constraints unique="true"/>
+            </column>
             <column name="generated_link" type="varchar(255)"/>
             <column name="uuid" type="varchar(36)"/>
             <column name="iterations" type="int"/>

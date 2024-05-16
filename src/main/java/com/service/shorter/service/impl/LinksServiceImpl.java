@@ -4,6 +4,9 @@ import com.service.shorter.config.LinksConfig;
 import com.service.shorter.domain.Link;
 import com.service.shorter.domain.dto.LinkDTO;
 import com.service.shorter.domain.mapper.LinkMapper;
+import com.service.shorter.exception.CreateUrlException;
+import com.service.shorter.exception.UrlExistException;
+import com.service.shorter.exception.UrlNotFoundException;
 import com.service.shorter.repository.LinksRepository;
  import com.service.shorter.service.LinksService;
 import com.service.shorter.vm.request.LinkVm;
@@ -11,6 +14,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -27,12 +31,12 @@ public class LinksServiceImpl implements LinksService {
 
 
     @Override
-    public LinkDTO getLink(LinkVm link) {
+    public LinkDTO generateLink(LinkVm link) {
         for (int i = 0; i < linksConfig.iteration(); i++) {
             String generateCode = RandomStringUtils.randomAlphabetic(linksConfig.length());
             int urlHashed = link.hashCode();
             linksRepository.findByHashedCode(urlHashed).ifPresent(foundLink -> {
-                throw new RuntimeException("Link already exists");
+                throw new UrlExistException("Link already exists" , HttpStatus.NOT_ACCEPTABLE);
             });
 
             Optional<Link> linkOptional = linksRepository.findByGeneratedCode(generateCode);
@@ -50,11 +54,25 @@ public class LinksServiceImpl implements LinksService {
                 return LinkDTO.builder()
                         .originalLink(saveLink.getOriginalLink())
                         .shortLink(saveLink.getShortLink())
+                        .generatedLink(saveLink.getGeneratedLink())
+                        .generatedCode(saveLink.getGeneratedCode())
                         .build();
             }
 
         }
 
-        throw new RuntimeException("Can Not Generate Link");
+        throw new CreateUrlException("Can Not Generate Link", HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    @Override
+    public LinkDTO returnLink(String code) {
+        Optional<Link> linkOptional = linksRepository.findByGeneratedCode(code);
+        if(linkOptional.isEmpty())
+            throw new UrlNotFoundException("Link not found", HttpStatus.NOT_FOUND);
+        Link link = linkOptional.get();
+        return LinkDTO.builder()
+                   .originalLink(link.getOriginalLink())
+                  .shortLink(link.getShortLink())
+                  .build();
     }
 }

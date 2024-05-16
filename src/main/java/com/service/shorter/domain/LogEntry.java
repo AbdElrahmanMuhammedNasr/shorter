@@ -4,16 +4,17 @@ import com.service.shorter.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
 import java.io.Serializable;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-@Table(name = "links")
+@Table(name = "logs")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Link extends BaseEntity implements Serializable {
+public class LogEntry extends BaseEntity implements Serializable {
 
     public static final long serialVersionUID = 1L;
 
@@ -21,22 +22,9 @@ public class Link extends BaseEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     Long id;
 
-    @Column(name = "original_link")
-    String originalLink;
-
-    @Column(name = "short_link")
-    String shortLink;
-
-    @Column(name = "generated_code", unique = true)
-    String generatedCode;
-
-    @Column(name = "generated_link")
-    String generatedLink;
-
-    String uuid;
-
-    int iterations;
-
-    @Column(name = "hashed_code")
-    int hashedCode;
+    private String time;
+    private String remoteAddr;
+    private String request;
+    private int status;
+    private String httpUserAgent;
 }

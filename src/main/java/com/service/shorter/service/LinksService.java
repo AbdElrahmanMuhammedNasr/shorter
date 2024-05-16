@@ -4,5 +4,9 @@ import com.service.shorter.domain.dto.LinkDTO;
 import com.service.shorter.vm.request.LinkVm;
 
 public interface LinksService {
-    LinkDTO getLink(LinkVm link);
+    LinkDTO generateLink(LinkVm link);
+
+    LinkDTO returnLink(String  code);
+
+
 }

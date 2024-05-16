@@ -9,9 +9,8 @@ import java.util.Objects;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class LinkVm {
+
     String url;
-
-
     @Override
     public int hashCode() {
         return Objects.hash(url);

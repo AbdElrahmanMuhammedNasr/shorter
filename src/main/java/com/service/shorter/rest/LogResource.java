@@ -19,7 +19,9 @@ public class LogResource {
     LogService logService;
 
     @PostMapping
-    public void saveLog(@RequestBody LogEntry logEntry) {
-        logService.saveLog(logEntry);
+    public void saveLog(@RequestBody String logData) {
+        System.out.println("logEntry: ======================================");
+        System.out.println("logEntry: ====================================== "+ logData );
+//        logService.saveLog(logEntry);
     }
 }

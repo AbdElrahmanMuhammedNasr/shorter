@@ -1,0 +1,4 @@
+# Pipeline for processing nginx logs
+- pipeline.id: nginx_logs
+  path.config: "/etc/logstash/conf.d/nginx.conf"
+

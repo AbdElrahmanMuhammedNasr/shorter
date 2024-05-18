@@ -1,0 +1,14 @@
+
+apiVersion: 1
+
+datasources:
+  - name: Postgres
+    type: postgres
+    url: ep-sparkling-term-a5479y8z.us-east-2.aws.neon.tech
+    user: shorter_owner
+    secureJsonData:
+      password: 'WuN1ZL0rKOhx!'
+    jsonData:
+      database: shorter
+      sslmode: 'require'
+      postgresVersion: "15"

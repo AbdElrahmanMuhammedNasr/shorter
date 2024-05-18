@@ -1,8 +1,6 @@
 # Stage 1: Build the application
 #FROM maven:3.8.4-openjdk-21 AS build
-#WORKDIR /app
-#COPY . /app
-#RUN #mvn clean package -DskipTests
+#RUN mvn clean package -DskipTests
 
 
 # Install Nginx

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="00000000000003" author="abdelrahman">
+        <createSequence sequenceName="logs_seq" startValue="1" incrementBy="50"/>
+    </changeSet>
+
+    <changeSet id="00000000000004" author="abdelrahman">
+        <createTable tableName="logs">
+            <column name="id" type="BIGINT" >
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="time" type="VARCHAR(50)">
+                <constraints nullable="false" />
+            </column>
+            <column name="remote_addr" type="VARCHAR(50)">
+                <constraints nullable="false" />
+            </column>
+            <column name="remote_user" type="VARCHAR(50)" />
+            <column name="request" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="status" type="VARCHAR(10)">
+                <constraints nullable="false" />
+            </column>
+            <column name="body_bytes_sent" type="VARCHAR(20)">
+                <constraints nullable="false" />
+            </column>
+            <column name="http_referer" type="VARCHAR(255)" />
+            <column name="http_user_agent" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="request_time" type="VARCHAR(20)">
+                <constraints nullable="false" />
+            </column>
+            <column name="upstream_response_time" type="VARCHAR(20)">
+                <constraints nullable="false" />
+            </column>
+            <column name="upstream_addr" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="http_x_forwarded_for" type="VARCHAR(255)" />
+            <column name="server_name" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="host" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="created_at" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="datetime">
+                <constraints nullable="true"/>
+            </column>
+            <column name="updated_by" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

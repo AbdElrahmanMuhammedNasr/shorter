@@ -40,11 +40,11 @@ COPY visualization/grafana/dashboards/dashboards-pg.json /etc/grafana/provisioni
 COPY visualization/grafana/provisioning/dashboards.yml /etc/grafana/provisioning/dashboards/
 
 
-EXPOSE 1110 80 3000
+EXPOSE  80 3000
 
-CMD   java -jar /app/shorter.jar & \
-    nginx -g "daemon off;" &\
-    sleep 30 && service dbus restart && cd /usr/share/logstash/bin && ./logstash -f /etc/logstash/conf.d/logstash.conf && \
+CMD   java -jar /app/shorter.jar && \
+    nginx -g "daemon off;" && \
+    sleep 1 && service dbus restart && cd /usr/share/logstash/bin && ./logstash -f /etc/logstash/conf.d/logstash.conf && \
     service grafana-server start
 
 

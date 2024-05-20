@@ -1,10 +1,13 @@
 package com.service.shorter.rest;
 
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.TreeNode;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.shorter.domain.LogEntry;
 import com.service.shorter.service.LogService;
+import com.service.shorter.vm.request.LogRequestVm;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -20,10 +23,9 @@ public class LogResource {
 
     LogService logService;
     ObjectMapper objectMapper;
-    @PostMapping(consumes = "application/json")
-    public void saveLog(@RequestBody String logData) throws IOException {
-            JsonNode jsonNode = objectMapper.readTree(logData);
-            LogEntry logEntry = objectMapper.treeToValue(jsonNode, LogEntry.class);
-            logService.saveLog(logEntry);
+    @PostMapping()
+    public void saveLog(@RequestBody LogRequestVm log) throws IOException {
+        LogEntry logEntry = objectMapper.readValue(log.getMessage(), LogEntry.class);
+        logService.saveLog(logEntry);
     }
 }

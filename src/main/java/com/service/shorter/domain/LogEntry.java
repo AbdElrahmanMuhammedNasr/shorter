@@ -14,13 +14,14 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class LogEntry extends BaseEntity implements Serializable {
 
     public static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-     Long id;
+      Long id;
       String time;
       String remote_addr;
       String remote_user;

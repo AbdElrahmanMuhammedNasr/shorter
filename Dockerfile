@@ -34,17 +34,17 @@ RUN wget -q -O - https://packages.grafana.com/gpg.key | gpg --dearmor -o /usr/sh
 COPY  /target/shorter-0.0.1-SNAPSHOT.jar /app/shorter.jar
 COPY  /nginx/nginx.conf  /etc/nginx/nginx.conf
 COPY  logs/logstash/logstash.conf /etc/logstash/conf.d/logstash.conf
-COPY  logs/logstash/pipelines.yml /etc/logstash/pipelines.yml
+COPY  logs/logstash/pipelines.yml  /usr/share/logstash/config/pipelines.yml
 COPY  visualization/grafana/datasources/datasource-pg.yml /etc/grafana/provisioning/datasources/
-COPY visualization/grafana/dashboards/dashboards-pg.json /etc/grafana/provisioning/dashboards/
-COPY visualization/grafana/provisioning/dashboards.yml /etc/grafana/provisioning/dashboards/
+COPY  visualization/grafana/dashboards/dashboards-pg.json /etc/grafana/provisioning/dashboards/
+COPY  visualization/grafana/provisioning/dashboards.yml /etc/grafana/provisioning/dashboards/
 
 
-EXPOSE  80 3000
+EXPOSE 1110 80 3000
 
 CMD   java -jar /app/shorter.jar && \
     nginx -g "daemon off;" && \
-    sleep 1 && service dbus restart && cd /usr/share/logstash/bin && ./logstash -f /etc/logstash/conf.d/logstash.conf && \
+    sleep 60 && service dbus restart && cd /usr/share/logstash/bin && ./logstash -f /etc/logstash/conf.d/logstash.conf && \
     service grafana-server start
 
 

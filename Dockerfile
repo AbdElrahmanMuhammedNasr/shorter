@@ -39,12 +39,13 @@ COPY  visualization/grafana/datasources/datasource-pg.yml /etc/grafana/provision
 COPY  visualization/grafana/dashboards/dashboards-pg.json /etc/grafana/provisioning/dashboards/
 COPY  visualization/grafana/provisioning/dashboards.yml /etc/grafana/provisioning/dashboards/
 
+COPY start.sh /start.sh
+
+RUN chmod +x /start.sh
 
 EXPOSE 1110 80 3000
 
-CMD   java -jar /app/shorter.jar && \
-    nginx -g "daemon off;" && \
-    sleep 60 && service dbus restart && cd /usr/share/logstash/bin && ./logstash -f /etc/logstash/conf.d/logstash.conf && \
-    service grafana-server start
+CMD ["/start.sh"]
+
 
 

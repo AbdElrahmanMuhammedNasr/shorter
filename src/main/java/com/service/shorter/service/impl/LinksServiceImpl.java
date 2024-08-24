@@ -17,7 +17,11 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.Random;
 import java.util.UUID;
 
 @Service
@@ -35,12 +39,12 @@ public class LinksServiceImpl implements LinksService {
         for (int i = 0; i < linksConfig.iteration(); i++) {
             String generateCode = RandomStringUtils.randomAlphabetic(linksConfig.length());
             int urlHashed = link.hashCode();
-            linksRepository.findByHashedCode(urlHashed).ifPresent(foundLink -> {
-                throw new UrlExistException("Link already exists" , HttpStatus.NOT_ACCEPTABLE);
-            });
+//            linksRepository.findByHashedCode(urlHashed).ifPresent(foundLink -> {
+//                throw new UrlExistException("Link already exists" , HttpStatus.NOT_ACCEPTABLE);
+//            });
 
-            Optional<Link> linkOptional = linksRepository.findByGeneratedCode(generateCode);
-            if(!linkOptional.isPresent()) {
+//            Optional<Link> linkOptional = linksRepository.findByGeneratedCode(generateCode);
+//            if(!linkOptional.isPresent()) {
                 Link buildLink = Link.builder()
                         .originalLink(link.getUrl())
                         .shortLink(linksConfig.shortHost())
@@ -50,14 +54,15 @@ public class LinksServiceImpl implements LinksService {
                         .iterations(i)
                         .hashedCode(urlHashed)
                         .build();
-                Link saveLink = linksRepository.save(buildLink);
+
+                    linksRepository.insertIfNotExists(BigInteger.valueOf(new Random().nextInt()),buildLink.getOriginalLink(), buildLink.getShortLink() , buildLink.getGeneratedCode() , buildLink.getGeneratedLink() , buildLink.getUuid(), buildLink.getIterations(), buildLink.getHashedCode(), Timestamp.valueOf(LocalDateTime.now()), "" , Timestamp.valueOf(LocalDateTime.now()),"" );
                 return LinkDTO.builder()
-                        .originalLink(saveLink.getOriginalLink())
-                        .shortLink(saveLink.getShortLink())
-                        .generatedLink(saveLink.getGeneratedLink())
-                        .generatedCode(saveLink.getGeneratedCode())
+//                        .originalLink(saveLink.getOriginalLink())
+//                        .shortLink(saveLink.getShortLink())
+//                        .generatedLink(saveLink.getGeneratedLink())
+//                        .generatedCode(saveLink.getGeneratedCode())
                         .build();
-            }
+//            }
 
         }
 
